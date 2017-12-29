@@ -82,27 +82,66 @@
   </style>
 
   <script>
-    var alive = [];
-    var clickCount=0;
+    var grid = [];
+    const size = 7;
+    var layer = 0;
+
+    //initialising zero array of size [size][size][2]
+    for(var l=0; l<size; l++){
+      grid[l]=[];
+      for(var m=0; m<size; m++){
+        grid[l][m] = [];
+        for(var n=0; n<2; n++){
+          grid[l][m][n] = 0;
+        }
+      }
+    }
 
     function clicked(){
       this.style.backgroundColor = "red";
-      var x = this.getAttribute('data-x');
-      var y = this.getAttribute('data-y');
-      alive[clickCount] = [x,y,0];
-      clickCount++;
+      var x = parseInt(this.getAttribute('data-x'))-1;
+      var y = parseInt(this.getAttribute('data-y'))-1;
+      grid[x][y][layer] = 1;
     }
-
     var cells = document.querySelectorAll(".cell")
     cells.forEach(cell => cell.addEventListener('click',clicked));
 
+    function Nbrs(i,j,layer){  //returns number of neighbours
+      var alive = 0;
+      for(var a=i-1; a<=i+1; a++){
+        for(var b=j-1; b<=j+1; b++){
+          if(a==-1 || b==-1 || a==size || b==size){
+            continue;
+          }
+          if(grid[a][b][layer] == 1){
+            alive++;
+          }
+        }
+      }
+      return alive-grid[i][j][layer];
+    }
+
     window.addEventListener('keydown',function(e){
       if(e.keyCode == 82){
-        for(var i=0; i<alive.length; i++){
-          var a = document.querySelector(`div[data-x="${alive[i][0][0]}"][data-y="${alive[i][1][0]}"]`);
-          a.style.backgroundColor = "#fff";
+        var newLayer = (layer)? 0 : 1;
+        for(var i=0; i<size; i++){
+          for(var j=0; j<size; j++){
+            var aliveNbrs = Nbrs(i,j,layer);
+            if((grid[i][j][layer] == 0) && (aliveNbrs == 3)){ //dead cell
+              grid[i][j][newLayer] = 1;
+              document.querySelector(`div[data-x="${i+1}"][data-y="${j+1}"]`).style.backgroundColor = "green";
+            }
+            else if( (grid[i][j][layer] == 1) && ((aliveNbrs == 3) || (aliveNbrs == 2)) ){ //live cell
+              grid[i][j][newLayer] = 1;
+              document.querySelector(`div[data-x="${i+1}"][data-y="${j+1}"]`).style.backgroundColor = "red";
+            }
+            else{
+              grid[i][j][newLayer] = 0;
+              document.querySelector(`div[data-x="${i+1}"][data-y="${j+1}"]`).style.backgroundColor = "#00b8d7";
+            }
+          }
         }
-        console.log("hi");
+      layer = newLayer;
       }
     })
   </script>
