@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game of Life</title>
+</head>
+<body>
+<div id="wrapper">
+  <div id="grid">
+    <div class="cell" data-x="1" data-y="1"></div>
+    <div class="cell" data-x="1" data-y="2"></div>
+    <div class="cell" data-x="1" data-y="3"></div>
+    <div class="cell" data-x="1" data-y="4"></div>
+    <div class="cell" data-x="1" data-y="5"></div>
+    <div class="cell" data-x="1" data-y="6"></div>
+    <div class="cell" data-x="1" data-y="7"></div>
+    <div class="cell" data-x="2" data-y="1"></div>
+    <div class="cell" data-x="2" data-y="2"></div>
+    <div class="cell" data-x="2" data-y="3"></div>
+    <div class="cell" data-x="2" data-y="4"></div>
+    <div class="cell" data-x="2" data-y="5"></div>
+    <div class="cell" data-x="2" data-y="6"></div>
+    <div class="cell" data-x="2" data-y="7"></div>
+    <div class="cell" data-x="3" data-y="1"></div>
+    <div class="cell" data-x="3" data-y="2"></div>
+    <div class="cell" data-x="3" data-y="3"></div>
+    <div class="cell" data-x="3" data-y="4"></div>
+    <div class="cell" data-x="3" data-y="5"></div>
+    <div class="cell" data-x="3" data-y="6"></div>
+    <div class="cell" data-x="3" data-y="7"></div>
+    <div class="cell" data-x="4" data-y="1"></div>
+    <div class="cell" data-x="4" data-y="2"></div>
+    <div class="cell" data-x="4" data-y="3"></div>
+    <div class="cell" data-x="4" data-y="4"></div>
+    <div class="cell" data-x="4" data-y="5"></div>
+    <div class="cell" data-x="4" data-y="6"></div>
+    <div class="cell" data-x="4" data-y="7"></div>
+    <div class="cell" data-x="5" data-y="1"></div>
+    <div class="cell" data-x="5" data-y="2"></div>
+    <div class="cell" data-x="5" data-y="3"></div>
+    <div class="cell" data-x="5" data-y="4"></div>
+    <div class="cell" data-x="5" data-y="5"></div>
+    <div class="cell" data-x="5" data-y="6"></div>
+    <div class="cell" data-x="5" data-y="7"></div>
+    <div class="cell" data-x="6" data-y="1"></div>
+    <div class="cell" data-x="6" data-y="2"></div>
+    <div class="cell" data-x="6" data-y="3"></div>
+    <div class="cell" data-x="6" data-y="4"></div>
+    <div class="cell" data-x="6" data-y="5"></div>
+    <div class="cell" data-x="6" data-y="6"></div>
+    <div class="cell" data-x="6" data-y="7"></div>
+    <div class="cell" data-x="7" data-y="1"></div>
+    <div class="cell" data-x="7" data-y="2"></div>
+    <div class="cell" data-x="7" data-y="3"></div>
+    <div class="cell" data-x="7" data-y="4"></div>
+    <div class="cell" data-x="7" data-y="5"></div>
+    <div class="cell" data-x="7" data-y="6"></div>
+    <div class="cell" data-x="7" data-y="7"></div>
+  </div>
+</div>
+
+  <style>
+  #wrapper{
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .cell{
+      width: 50px;
+      height: 50px;
+      border: 1px solid #000;
+      display: flex;
+      background-color: #00b8d7;
+  }
+  #grid{
+      width: 400px;
+      display: flex;
+      flex-flow: row wrap;
+    }
+  </style>
+
+  <script>
+    var alive = [];
+    var clickCount=0;
+
+    function clicked(){
+      this.style.backgroundColor = "red";
+      var x = this.getAttribute('data-x');
+      var y = this.getAttribute('data-y');
+      alive[clickCount] = [x,y,0];
+      clickCount++;
+    }
+
+    var cells = document.querySelectorAll(".cell")
+    cells.forEach(cell => cell.addEventListener('click',clicked));
+
+    window.addEventListener('keydown',function(e){
+      if(e.keyCode == 82){
+        for(var i=0; i<alive.length; i++){
+          var a = document.querySelector(`div[data-x="${alive[i][0][0]}"][data-y="${alive[i][1][0]}"]`);
+          a.style.backgroundColor = "#fff";
+        }
+        console.log("hi");
+      }
+    })
+  </script>
+
+</body>
